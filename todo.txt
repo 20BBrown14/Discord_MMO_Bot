@@ -1,0 +1,5 @@
+Things I would like to do
+
+Add roles
+lfg functionality
+pull item stats
