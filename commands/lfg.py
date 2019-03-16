@@ -2,8 +2,6 @@
 
 import datetime
 import time
-import threading
-import schedule
 
 """
 Add role function command
