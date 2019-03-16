@@ -15,6 +15,7 @@ global lfg_message
 
 async def delete_message(client, message):
   if(message.channel.name):
+    if(not message.channel.name.lower() == 'bot_commands')
     await client.delete_message(message)
 
 @client.event
