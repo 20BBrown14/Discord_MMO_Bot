@@ -9,8 +9,8 @@ Help function command
 @result: sends a message with help information always
 @result: deletes the triggering message always
 """
-async def command(client, message, channel):
-  await client.delete_message(message)
+async def command(client, message, channel, delete_message):
+  await delete_message(client, message)
   help_commands = """Available commands:
       < `!help` >: *Displays this message*
       < `!addrole role1, role2, ...` >: *Gives the specified role to you*
@@ -19,7 +19,8 @@ async def command(client, message, channel):
           If you are already on this list just `!lfg` will remove you from the list
           `notes` option is not required
           1 hours old entries will be automatically removed
-          Only 1 entry per user"""
+          Only 1 entry per user
+      < `!listroles` >: list available roles on this server"""
   help_information = """Information:
     This bot was designed for an EverQuest2 Discord server.
     Contact Vixxle#8335 if you have questions. 

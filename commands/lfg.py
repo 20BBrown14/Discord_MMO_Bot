@@ -19,7 +19,8 @@ Add role function command
 """
 HEADER = ['DISCORD', 'CHAR', 'CLASS', 'LEVEL', 'NOTES']
 
-async def command(client, message, channel, current_table, lfg_message):
+async def command(client, message, channel, current_table, lfg_message, delete_message):
+  await delete_message(client, message)
   message_args_raw = message.content[5:] #get args from message
   message_args = message_args_raw.split(',') #split args into arrow
 
@@ -53,7 +54,6 @@ async def command(client, message, channel, current_table, lfg_message):
       else:
         lfg_message = await client.send_message(channel, "```%s```" % generate_table_string())
 
-  await client.delete_message(message)
   try: #check that args exist
     char_name = message_args[0]
     char_class = message_args[1]

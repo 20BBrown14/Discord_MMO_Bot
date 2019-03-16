@@ -5,13 +5,17 @@ import time
 #local imports
 import config
 # command imports
-from commands import help, add_role, remove_role, lfg
+from commands import help, add_role, remove_role, lfg, list_roles
 
 client = discord.Client()
 discordApiKey = config.bot_token
 
 global lfg_table
 global lfg_message
+
+async def delete_message(client, message):
+  if(message.channel.name):
+    await client.delete_message(message)
 
 @client.event
 async def on_ready():
@@ -43,11 +47,11 @@ async def on_message(message):
     print(message_string)
   #Is the message a command
   if(message_content == help.TRIGGER):
-    await help.command(client, message, response_channel)
+    await help.command(client, message, response_channel, delete_message)
   if(message_content.startswith(add_role.TRIGGER)):
-    await add_role.command(client, message)
+    await add_role.command(client, message, delete_message)
   elif(message_content.startswith(remove_role.TRIGGER)):
-    await remove_role.command(client, message)
+    await remove_role.command(client, message, delete_message)
   elif(message_content.startswith(lfg.TRIGGER)):
     lfg_channel = None #refactor this out
     for channel in message.server.channels:
@@ -55,10 +59,15 @@ async def on_message(message):
         lfg_channel = channel
         break
     if(not lfg_channel == None):
-      lfg_table, lfg_message = await lfg.command(client, message, lfg_channel, lfg_table, lfg_message)
+      lfg_table, lfg_message = await lfg.command(client, message, lfg_channel, lfg_table, lfg_message, delete_message)
     else:
-      await client.delete_message(message)
+      await delete_message(client, message)
       await client.send_message(message.author, 'This server does not have an lfg channel')
+  elif(message_content == (list_roles.TRIGGER)):
+    await list_roles.command(client, message, response_channel, delete_message)
+  elif(message_content.startswith('!')):
+    await delete_message(client, message)
+    await client.send_message(message.author, "Unrecognized command `%s`. Use `!help` to list available commands." % message_content)
   
 
 client.run(discordApiKey)

@@ -10,8 +10,8 @@ Removed role Function Command
 @result: removes the specified roles if possible
 """
 forbidden_roles = ['admin', 'mod'] #Add roles here that shouldn't be removed
-async def command(client, message):
-  await client.delete_message(message)
+async def command(client, message, delete_message):
+  await delete_message(client, message)
   rolesRaw = message.content[12:]
   spaceIndex = 0
   requested_roles = rolesRaw.lower().split(',')

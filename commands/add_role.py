@@ -10,8 +10,8 @@ Add role function command
 @result: Gives user specified roll if possible
 """
 forbidden_roles = ['admin', 'mod'] #Add roles here that can't be requested
-async def command(client, message):
-  await client.delete_message(message)
+async def command(client, message, delete_message):
+  await delete_message(client, message)
   rolesRaw = message.content[9:]
   spaceIndex = 0
   requested_roles = rolesRaw.lower().split(',')
