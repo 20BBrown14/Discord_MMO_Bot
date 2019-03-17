@@ -56,7 +56,7 @@ async def on_message(message):
   elif(message_content.startswith(lfg.TRIGGER)):
     lfg_channel = None #refactor this out
     for channel in message.server.channels:
-      if channel.name.lower() == 'newbottesting':
+      if channel.name.lower() == 'lfg':
         lfg_channel = channel
         break
     if(not lfg_channel == None):
