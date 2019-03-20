@@ -5,7 +5,8 @@ import time
 #local imports
 import config
 # command imports
-from commands import help, add_role, remove_role, lfg, list_roles
+from commands import help, add_role, remove_role, lfg, list_roles, pizza
+from rules import lfg_channel_clean
 
 client = discord.Client()
 discordApiKey = config.bot_token
@@ -14,6 +15,10 @@ global lfg_table
 global lfg_message
 
 async def delete_message(client, message):
+  try:
+    client.get_message(message.channel, message.id)
+  except:
+    print('Message DNE')
   if(message.channel.name):
     if(not message.channel.name.lower() == 'bot_commands'):
       await client.delete_message(message)
@@ -46,10 +51,13 @@ async def on_message(message):
   elif(message.author != client.user and not message.channel.name):
     message_string = "%s said \"%s\" [privately] @ %s" % (message.author.name, message.content, time.ctime())
     print(message_string)
+  #Apply any rules to the message
+  if(lfg_channel_clean.APPLIES(message)):
+    await lfg_channel_clean.rule(client, message, delete_message)
   #Is the message a command
   if(message_content == help.TRIGGER):
     await help.command(client, message, response_channel, delete_message)
-  if(message_content.startswith(add_role.TRIGGER)):
+  elif(message_content.startswith(add_role.TRIGGER)):
     await add_role.command(client, message, delete_message)
   elif(message_content.startswith(remove_role.TRIGGER)):
     await remove_role.command(client, message, delete_message)
@@ -66,7 +74,9 @@ async def on_message(message):
       await client.send_message(message.author, 'This server does not have an lfg channel')
   elif(message_content == (list_roles.TRIGGER)):
     await list_roles.command(client, message, response_channel, delete_message)
-  elif(message_content.startswith('!')):
+  elif(message_content.startswith(pizza.TRIGGER)):
+    await pizza.command(client, message, response_channel)
+  elif(message_content.startswith('!')): #Unrecognized command
     await delete_message(client, message)
     await client.send_message(message.author, "Unrecognized command `%s`. Use `!help` to list available commands." % message_content)
   
