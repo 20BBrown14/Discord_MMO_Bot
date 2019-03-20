@@ -12,8 +12,7 @@ lfg channel clean rule
 async def rule(client, message, delete_message):
   await delete_message(client, message)
 
-def APPLIES(message):
-  print(message.channel.name)
+def APPLIES(client, message):
   if(message.channel.name.lower() == 'lfg' and message.author != client.user):
     return True
   return False

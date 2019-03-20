@@ -17,11 +17,11 @@ global lfg_message
 async def delete_message(client, message):
   try:
     client.get_message(message.channel, message.id)
+    if(message.channel.name):
+      if(not message.channel.name.lower() == 'bot_commands'):
+        await client.delete_message(message)
   except:
     print('Message DNE')
-  if(message.channel.name):
-    if(not message.channel.name.lower() == 'bot_commands'):
-      await client.delete_message(message)
 
 @client.event
 async def on_ready():
@@ -52,7 +52,7 @@ async def on_message(message):
     message_string = "%s said \"%s\" [privately] @ %s" % (message.author.name, message.content, time.ctime())
     print(message_string)
   #Apply any rules to the message
-  if(lfg_channel_clean.APPLIES(message)):
+  if(lfg_channel_clean.APPLIES(client, message)):
     await lfg_channel_clean.rule(client, message, delete_message)
   #Is the message a command
   if(message_content == help.TRIGGER):
