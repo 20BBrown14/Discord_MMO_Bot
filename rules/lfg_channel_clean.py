@@ -14,5 +14,6 @@ async def rule(client, message, delete_message):
 
 def APPLIES(message):
   print(message.channel.name)
-  if(message.channel.name == 'lfg'):
+  if(message.channel.name == 'lfg' and message.author != client.user):
     return True
+  return False
