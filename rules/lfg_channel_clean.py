@@ -13,6 +13,6 @@ async def rule(client, message, delete_message):
   await delete_message(client, message)
 
 def APPLIES(client, message):
-  if(message.channel.name.lower() == 'lfg' and message.author != client.user):
+  if(message.channel.name and message.channel.name.lower() == 'lfg' and message.author != client.user):
     return True
   return False
