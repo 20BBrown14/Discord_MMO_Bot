@@ -95,7 +95,6 @@ async def command(client, message, channel, delete_message, weather_cache, weath
     url = "http://api.openweathermap.org/data/2.5/weather?zip=%s&APPID=%s" % (zipcode, weather_api_key)
     response = requests.get(url).text
     JSONResponse = json.loads(response)
-    print(JSONResponse)
     if(JSONResponse['cod'] == 200):
       weather = JSONResponse["weather"][0] if 'weather' in JSONResponse else []
       main = JSONResponse["main"] if 'main' in JSONResponse else []
