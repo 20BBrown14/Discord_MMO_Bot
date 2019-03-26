@@ -5,11 +5,12 @@ import time
 #local imports
 import config
 # command imports
-from commands import help, add_role, remove_role, lfg, list_roles, pizza
+from commands import help, add_role, remove_role, lfg, list_roles, pizza, weather
 from rules import lfg_channel_clean
 
 client = discord.Client()
 discordApiKey = config.bot_token
+weather_api_key = config.weather_api_key
 
 global lfg_table
 global lfg_message
@@ -76,6 +77,8 @@ async def on_message(message):
     await list_roles.command(client, message, response_channel, delete_message)
   elif(message_content.startswith(pizza.TRIGGER)):
     await pizza.command(client, message, response_channel)
+  elif(message_content.startswith(weather.TRIGGER)):
+    await weather.command(client, message, response_channel, delete_message, [], weather_api_key)
   elif(message_content.startswith('!')): #Unrecognized command
     await delete_message(client, message)
     await client.send_message(message.author, "Unrecognized command `%s`. Use `!help` to list available commands." % message_content)
