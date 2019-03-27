@@ -1,6 +1,7 @@
 #library imports
 import discord
 import time
+import json
 
 #local imports
 import config
@@ -14,6 +15,7 @@ weather_api_key = config.weather_api_key
 
 global lfg_table
 global lfg_message
+global weather_cache
 
 async def delete_message(client, message):
   try:
@@ -28,8 +30,10 @@ async def delete_message(client, message):
 async def on_ready():
   global lfg_table
   global lfg_message
+  global weather_cache
   lfg_table = []
   lfg_message = None
+  weather_cache = json.loads('{}')
   client_game = discord.Game(name='say !help')
   await client.change_status(game = client_game)
   #info
@@ -44,6 +48,7 @@ async def on_message(message):
   #message log
   global lfg_table
   global lfg_message
+  global weather_cache
   message_content = message.content.lower()
   response_channel = message.channel if message.channel.name else message.author
   if(message.author != client.user and message.channel.name):
@@ -78,7 +83,7 @@ async def on_message(message):
   elif(message_content.startswith(pizza.TRIGGER)):
     await pizza.command(client, message, response_channel)
   elif(message_content.startswith(weather.TRIGGER)):
-    await weather.command(client, message, response_channel, delete_message, [], weather_api_key)
+    weather_cache = await weather.command(client, message, response_channel, delete_message, weather_cache, weather_api_key)
   elif(message_content.startswith('!')): #Unrecognized command
     await delete_message(client, message)
     await client.send_message(message.author, "Unrecognized command `%s`. Use `!help` to list available commands." % message_content)
