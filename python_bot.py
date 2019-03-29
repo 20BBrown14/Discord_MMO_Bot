@@ -6,7 +6,7 @@ import json
 #local imports
 import config
 # command imports
-from commands import help, add_role, remove_role, lfg, list_roles, pizza, weather
+from commands import help, add_role, remove_role, lfg, list_roles, pizza, weather, raid
 from rules import lfg_channel_clean
 
 client = discord.Client()
@@ -16,6 +16,7 @@ weather_api_key = config.weather_api_key
 global lfg_table
 global lfg_message
 global weather_cache
+global raid_info
 
 async def delete_message(client, message):
   try:
@@ -31,9 +32,11 @@ async def on_ready():
   global lfg_table
   global lfg_message
   global weather_cache
+  global raid_info
   lfg_table = []
   lfg_message = None
   weather_cache = json.loads('{}')
+  raid_info = json.loads('{}')
   client_game = discord.Game(name='say !help')
   await client.change_status(game = client_game)
   #info
@@ -49,6 +52,7 @@ async def on_message(message):
   global lfg_table
   global lfg_message
   global weather_cache
+  global raid_info
   message_content = message.content.lower()
   response_channel = message.channel if message.channel.name else message.author
   if(message.author != client.user and message.channel.name):
@@ -84,6 +88,9 @@ async def on_message(message):
     await pizza.command(client, message, response_channel)
   elif(message_content.startswith(weather.TRIGGER)):
     weather_cache = await weather.command(client, message, response_channel, delete_message, weather_cache, weather_api_key)
+  elif(message_content.startswith(raid.TRIGGER)):
+    #load raid info from file
+    raid_info = await raid.command(client, message, response_channel, delete_message, raid_info)
   elif(message_content.startswith('!')): #Unrecognized command
     await delete_message(client, message)
     await client.send_message(message.author, "Unrecognized command `%s`. Use `!help` to list available commands." % message_content)
