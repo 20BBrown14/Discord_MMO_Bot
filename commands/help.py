@@ -22,6 +22,9 @@ async def command(client, message, channel, delete_message):
           Only 1 entry per user
       < `!listroles` >: *Lists available roles on this server*
       < `!pizza` >: *I don't know. Just do it.*
+      < `!raid` >: *Responds with raid time if set by raid leaders*
+          `!raid set <raid information>` is used by raid leaders to set raid information returned by `!raid` command.
+          Discord users need permission to move, deafen, and mute in voice channels to use the `!raid set` option.
       < `!removerole role1, role2, ...` >: *Removes the specified role from you*
       < `!weather option=value` >: *Displays weather for location specified*
          Use `!weather help` for available weather options"""
