@@ -106,3 +106,4 @@ venv.bak/
 # project
 config.py
 raid_info.json
+tradeskill_info.json

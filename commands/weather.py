@@ -43,7 +43,7 @@ def precip_string(precip):
     return False
 
 def create_embeded(title, description, icon, min_temp, max_temp, current_temp, humidity, wind_speed, wind_degrees, wind_direction, rain, snow):
-  embed=discord.Embed(title="%s's Weather" % title, description="%s" % description, color=0x00f900)
+  embed=discord.Embed(title="%s's Current Weather" % title, description="%s" % description, color=0x00f900)
   if(icon):
     embed.set_thumbnail(url="http://openweathermap.org/img/w/%s.png" % icon)
   if(min_temp):
