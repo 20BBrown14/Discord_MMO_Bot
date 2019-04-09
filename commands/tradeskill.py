@@ -5,7 +5,7 @@ import json
 from fuzzywuzzy import fuzz
 import os
 
-tradeskills = ['carpenter', 'provisioner', 'woodworker', 'weaponsmith', 'armorer', 'tailor', 'alchemist', 'jeweler', 'sage', 'tinkerer', 'adorner']
+tradeskills = ['Carpenter', 'Provisioner', 'Woodworker', 'Weaponsmith', 'Armorer', 'Tailor', 'Alchemist', 'Jeweler', 'Sage', 'Tinkerer', 'Adorner']
 
 async def unrecognized_tradeskill(client, bad_string, message):
   space_index = bad_string.strip().find(' ')
@@ -49,7 +49,7 @@ async def command(client, message, channel, delete_message, tradeskill_informati
   message_content = message.content.strip().lower()
   wanted_profession = ''
   if(message_content.find(' ') > 0):
-    wanted_profession = message_content[12:].strip()
+    wanted_profession = message_content[12:].strip().lower().capitalize()
     if(not wanted_profession in tradeskills):
       await unrecognized_tradeskill(client, wanted_profession, message)
       return
@@ -65,10 +65,10 @@ async def command(client, message, channel, delete_message, tradeskill_informati
   else:
     tradeskill_information_reply = 'All tradeskillers on this server. You can specify a profession with `!tradeskill [profession]`\n\n'
     for profession in server_tradeskill_information:
-      tradeskill_information_reply = tradeskill_information_reply + '%ss\n' % profession
-      profession_information = server_tradeskill_information[profession]
-      for char_name in server_tradeskill_information[profession]:
-        tradeskill_information_reply = tradeskill_information_reply + "%s: Level %s %s - %s\n" % (char_name, profession_information[char_name]['level'], profession, profession_information[char_name]['notes'])
+      tradeskill_information_reply = tradeskill_information_reply + '%ss\n' % profession.lower().capitalize()
+      profession_information = server_tradeskill_information[profession.lower().capitalize()]
+      for char_name in server_tradeskill_information[profession.lower().capitalize()]:
+        tradeskill_information_reply = tradeskill_information_reply + "%s: Level %s %s - %s\n" % (char_name, profession_information[char_name]['level'], profession.lower().capitalize(), profession_information[char_name]['notes'])
     await client.send_message(message.author, tradeskill_information_reply)
 
 TRIGGER = '!tradeskill'

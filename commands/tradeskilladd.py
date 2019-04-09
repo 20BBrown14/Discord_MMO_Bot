@@ -6,7 +6,7 @@ import os
 #!tradeskilladd someName, level, class, notes
 #!tradeskilladd help
 
-tradeskills = ['carpenter', 'provisioner', 'woodworker', 'weaponsmith', 'armorer', 'tailor', 'alchemist', 'jeweler', 'sage', 'tinkerer', 'adorner']
+tradeskills = ['Carpenter', 'Provisioner', 'Woodworker', 'Weaponsmith', 'Armorer', 'Tailor', 'Alchemist', 'Jeweler', 'Sage', 'Tinkerer', 'Adorner']
 
 async def unrecognized_tradeskill(client, bad_string, message):
   space_index = bad_string.strip().find(' ')
@@ -55,12 +55,22 @@ async def command(client, message, channel, delete_message, tradeskill_informati
     await tradeskill_help(client, message, channel)
     return tradeskill_information
   arguments = message_content[15:].split(',')
-  if(len(arguments) > 4 or len(arguments) < 3):
+  if(len(arguments) < 3):
     await tradeskill_help(client, message, channel)
     return tradeskill_information
+  if(len(arguments) > 4):
+    new_args = []
+    new_args.append(arguments[0])
+    new_args.append(arguments[1])
+    new_args.append(arguments[2])
+    notes_args = ''
+    for i in range(3, len(arguments)):
+      notes_args = notes_args + arguments[i]
+    new_args.append(notes_args)
+    arguments = new_args
   char_name = arguments[0].strip()
   char_level = arguments[1].strip()
-  char_profession = arguments[2].strip()
+  char_profession = arguments[2].strip().lower().capitalize()
   if(not char_profession in tradeskills):
     await unrecognized_tradeskill(client, char_profession, message)
     return tradeskill_information
