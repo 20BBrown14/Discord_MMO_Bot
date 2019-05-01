@@ -16,7 +16,7 @@ weather_api_key = config.weather_api_key
 
 command_array = [help.TRIGGER, add_role.TRIGGER, remove_role.TRIGGER, lfg.TRIGGER, list_roles.TRIGGER, pizza.TRIGGER, weather.TRIGGER, raid.TRIGGER, tradeskilladd.TRIGGER, tradeskill.TRIGGER, tradeskillremove.TRIGGER]
 
-version = '2019-04-09_1'
+version = '2019-04-30_1'
 
 global lfg_table
 global lfg_message
