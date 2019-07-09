@@ -7,18 +7,19 @@ from fuzzywuzzy import fuzz
 #local imports
 import config
 # command imports
-from commands import help, add_role, remove_role, lfg, list_roles, pizza, weather, raid, tradeskilladd, tradeskill, tradeskillremove, leave_server
+from commands import help, add_role, remove_role, lfg, list_roles, pizza, weather, raid, tradeskilladd, tradeskill, tradeskillremove, leave_server, giphy
 from rules import lfg_channel_clean
 
 client = discord.Client()
 discordApiKey = config.bot_token
 weather_api_key = config.weather_api_key
+giphy_api_key = config.giphy_api_key
 
 command_array = [help.TRIGGER, add_role.TRIGGER, remove_role.TRIGGER, lfg.TRIGGER, list_roles.TRIGGER,
                   pizza.TRIGGER, weather.TRIGGER, raid.TRIGGER, tradeskilladd.TRIGGER, tradeskill.TRIGGER,
                   tradeskillremove.TRIGGER, leave_server.TRIGGER]
 
-version = '2019-07-01_1'
+version = '2019-07-09_1'
 
 global lfg_table
 global lfg_message
@@ -136,6 +137,8 @@ async def on_message(message):
   elif(command_string.startswith('!')): #Unrecognized command
     await delete_message(client, message)
     await unrecognized_command(message_content, message)
+  elif(command_string.startswith('/')):
+    await giphy.giphy_command(client, message, response_channel, delete_message, giphy_api_key)
   
 
 client.run(discordApiKey)
