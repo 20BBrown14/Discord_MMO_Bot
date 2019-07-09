@@ -1,5 +1,6 @@
 async def giphy_command(client, message, response_channel, delete_message, giphy_api_key):
   forbidden_gifs = ['/gamerescape', '/xivdb', '/giphy', '/tts', '/tenor', '/me', '/tableflip', '/unflip', '/shrug', '/nick']
+  messageContent = message.content
   spaceIndex = messageContent.find(' ')
   if spaceIndex != -1 and messageContent[:spaceIndex] in forbidden_gifs:
     return
