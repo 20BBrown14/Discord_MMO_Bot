@@ -28,11 +28,7 @@ async def giphy_command(client, message, response_channel, delete_message, giphy
     await client.send_message(author, "Sorry, but '"+messageContent[1:] + "' returned no results from Giphy.")
   else:
     url = json.dumps(data["data"][random.randint(0,len(data["data"])-1)]["url"], sort_keys = True, indent = 4)
-    displayName = ''
-    if(hasattr(author, 'nick')):
-      displayName = author.nick
-    else:
-      displayName = author.name
+    displayName = author.nick if author.nick else author.name
     await client.send_message(message.channel, url[1:len(url)-1] + ' \'' + messageContent[1:] + '\' by ' + displayName + ' with ' + str(len(data["data"])) + ' results')
   if(message and message.channel.name):
     await delete_message(client, message)
