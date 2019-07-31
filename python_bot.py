@@ -19,7 +19,7 @@ command_array = [help.TRIGGER, add_role.TRIGGER, remove_role.TRIGGER, lfg.TRIGGE
                   pizza.TRIGGER, weather.TRIGGER, raid.TRIGGER, tradeskilladd.TRIGGER, tradeskill.TRIGGER,
                   tradeskillremove.TRIGGER, leave_server.TRIGGER]
 
-version = '2019-07-17_1'
+version = '2019-07-31_1'
 
 global lfg_table
 global lfg_message
